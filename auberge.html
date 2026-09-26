@@ -325,6 +325,19 @@
   (() => {
     'use strict';
     document.getElementById('yr').textContent = new Date().getFullYear();
+
+    /* ── Filet de securite GSAP ─────────────────────────────────────
+       Les elements [data-animate] sont masques par CSS (opacity:0) et
+       reveles par GSAP, charge depuis un CDN. Si ce CDN ne repond pas
+       — panne, pare-feu, bloqueur, reseau lent — rien n'etait jamais
+       revele : 64 blocs de texte sur 87 restaient invisibles, dont le
+       formulaire de contact. Le repli ci-dessous rend tout visible.  */
+    const sansGsap = () => document.documentElement.classList.add('sans-gsap');
+    const verifierGsap = () => { if (typeof window.gsap === 'undefined' ||
+                                     typeof window.ScrollTrigger === 'undefined') sansGsap(); };
+    window.addEventListener('load', verifierGsap);
+    setTimeout(verifierGsap, 3000);   // au cas ou le CDN suspend l'evenement load
+
     const bar = document.querySelector('.scroll-progress');
     window.addEventListener('scroll', () => {
       const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
@@ -359,7 +372,7 @@
   <!-- GSAP + ScrollTrigger -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-  <script src="gsap-animations.js?v=3" defer></script>
+  <script src="gsap-animations.js?v=4" defer></script>
 
 </body>
 </html>

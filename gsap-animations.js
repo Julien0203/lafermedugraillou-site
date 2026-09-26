@@ -3,6 +3,16 @@
  * ScrollTrigger + hero entrance + parallax + micro-interactions
  */
 
+/* Garde-fou : GSAP vient d'un CDN. S'il est injoignable — panne,
+   pare-feu, bloqueur, reseau lent — ce fichier levait une exception
+   des la premiere ligne et le contenu masque par [data-animate]
+   n'etait jamais revele. On sort proprement : le script de page pose
+   la classe .sans-gsap, qui rend tout visible sans animation. */
+if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+  document.documentElement.classList.add('sans-gsap');
+} else {
+
+
 gsap.registerPlugin(ScrollTrigger);
 gsap.defaults({ ease: 'power3.out' });
 
@@ -213,3 +223,4 @@ mm.add(
 
   }
 );
+}

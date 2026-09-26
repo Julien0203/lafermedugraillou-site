@@ -68,7 +68,7 @@
         "image": ["https://www.lafermedugraillou.fr/images/opt/G23_9431-CR2_DxO_DeepPRIME-1200.jpg","https://www.lafermedugraillou.fr/images/opt/G23_9246-CR2_DxO_DeepPRIME-1200.jpg"],
         "telephone": "+33-6-76-98-41-55",
         "openingHours": ["Mo 10:00-19:00", "Tu-Su 09:00-19:00"],
-        "email": "elodiebertrand1@gmail.com",
+        "email": "elodie.bertrand1@orange.fr",
         "priceRange": "€€",
         "currenciesAccepted": "EUR",
         "paymentAccepted": "Cash, Chèque",
@@ -589,7 +589,7 @@
               </div>
               <div class="boutique-row">
                 <svg class="boutique-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/></svg>
-                <div><strong>Email</strong><a href="mailto:elodiebertrand1@gmail.com">elodiebertrand1@gmail.com</a></div>
+                <div><strong>Email</strong><a href="mailto:elodie.bertrand1@orange.fr">elodie.bertrand1@orange.fr</a></div>
               </div>
               <div class="boutique-row">
                 <svg class="boutique-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm.5 15H11v-6h1.5V17zm0-8H11V7h1.5v2z" fill="currentColor"/></svg>
@@ -771,7 +771,7 @@
                 <svg class="contact-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/></svg>
                 <div>
                   <strong>Email</strong>
-                  <a href="mailto:elodiebertrand1@gmail.com" class="contact-link">elodiebertrand1@gmail.com</a>
+                  <a href="mailto:elodie.bertrand1@orange.fr" class="contact-link">elodie.bertrand1@orange.fr</a>
                 </div>
               </div>
             </address>
@@ -865,6 +865,19 @@
     /* ── Année footer ── */
     document.getElementById('yr').textContent = new Date().getFullYear();
 
+    /* ── Filet de securite GSAP ─────────────────────────────────────
+       Les elements [data-animate] sont masques par CSS (opacity:0) et
+       reveles par GSAP, charge depuis un CDN. Si ce CDN ne repond pas
+       — panne, pare-feu, bloqueur, reseau lent — rien n'etait jamais
+       revele : 64 blocs de texte sur 87 restaient invisibles, dont le
+       formulaire de contact. Le repli ci-dessous rend tout visible.  */
+    const sansGsap = () => document.documentElement.classList.add('sans-gsap');
+    const verifierGsap = () => { if (typeof window.gsap === 'undefined' ||
+                                     typeof window.ScrollTrigger === 'undefined') sansGsap(); };
+    window.addEventListener('load', verifierGsap);
+    setTimeout(verifierGsap, 3000);   // au cas ou le CDN suspend l'evenement load
+
+
     /* ── Scroll progress ── */
     const bar = document.querySelector('.scroll-progress');
     const onScroll = () => {
@@ -928,7 +941,7 @@
   <!-- GSAP + ScrollTrigger -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-  <script src="gsap-animations.js?v=3" defer></script>
+  <script src="gsap-animations.js?v=4" defer></script>
 
 </body>
 </html>

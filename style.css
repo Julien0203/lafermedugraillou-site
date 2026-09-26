@@ -1689,7 +1689,7 @@ figcaption {
 /* — Corps d'article — */
 .bl-corps { padding: clamp(44px, 6vw, 76px) 0; }
 .bl-grille { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: clamp(32px, 5vw, 64px); align-items: start; }
-.bl-texte { max-width: 72ch; font-size: 1.04rem; line-height: 1.78; }
+.bl-texte { max-width: 72ch; min-width: 0; font-size: 1.04rem; line-height: 1.78; }
 .bl-texte > section { scroll-margin-top: 130px; }
 .bl-texte h2 {
   font-size: clamp(1.55rem, 3vw, 2.12rem); line-height: 1.16;
@@ -1791,7 +1791,10 @@ figcaption {
 
 /* — Responsive — */
 @media (max-width: 1024px) {
-  .bl-grille { grid-template-columns: 1fr; }
+  /* minmax(0,1fr) et non 1fr : une piste 1fr a un min-width auto,
+     qu'un tableau large fait eclater — le debordement etait ensuite
+     masque par body { overflow-x: hidden }, donc invisible au test. */
+  .bl-grille { grid-template-columns: minmax(0, 1fr); }
   .bl-aside { position: static; flex-direction: row; flex-wrap: wrap; }
   .bl-aside > * { flex: 1 1 280px; }
   .bl-preuves ul { grid-template-columns: repeat(2, 1fr); }
@@ -1801,9 +1804,106 @@ figcaption {
   .bl-texte { font-size: 1rem; }
   .bl-hero-actions .btn { width: 100%; }
   .bl-preuves ul { grid-template-columns: 1fr 1fr; }
-  .bl-tableau, .bl-tableau tbody, .bl-tableau tr, .bl-tableau td, .bl-tableau th { display: block; }
+  .bl-tableau, .bl-tableau tbody, .bl-tableau tr, .bl-tableau td, .bl-tableau th,
+  .bl-tableau caption { display: block; }
+  .bl-tableau { width: 100%; max-width: 100%; }
   .bl-tableau thead { display: none; }
   .bl-tableau tr { border-bottom: 2px solid var(--creme-dk); padding: 10px 0; }
   .bl-tableau td, .bl-tableau th { border: 0; padding: 5px 0; }
   .bl-tableau td::before { content: attr(data-col) " : "; font-weight: 700; color: var(--texte-lt); }
+}
+
+
+/* ══════════════════════════════════════════════════════
+   FORMULAIRE — piege a robots et retours d'envoi
+══════════════════════════════════════════════════════ */
+.form-pot {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.form-status {
+  margin: 18px auto 0;
+  max-width: 62ch;
+  font-size: .92rem;
+  line-height: 1.55;
+  padding: 13px 18px;
+  border-radius: var(--radius);
+  border-left: 3px solid currentColor;
+  text-align: left;
+}
+.form-status--ok      { color: #1B6337; background: rgba(27,99,55,.09); }
+.form-status--erreur  { color: var(--rouge); background: rgba(123,21,23,.09); }
+.form-status--attente { color: var(--or-txt); background: rgba(126,90,32,.11); }
+
+/* ══════════════════════════════════════════════════════
+   CONFORT DE LECTURE ET DE TOUCHER SUR MOBILE
+   Les micro-libelles tombaient entre 11,2 et 11,8 px, sous le
+   seuil de confort de 12 px ; les liens de contact isoles
+   faisaient moins de 24 px de haut au doigt.
+══════════════════════════════════════════════════════ */
+.eyebrow,
+.hero-eyebrow,
+.page-hero-eyebrow,
+.produit-category,
+.footer-nav-title,
+.contact-social-label,
+.breadcrumb-sep,
+.bl-encadre .bl-encadre-titre,
+.bl-carte .bl-carte-titre,
+.bl-carte h2 { font-size: max(.72rem, 12px); }
+
+.tag { font-size: max(.72rem, 12px); }
+
+.bl-tableau thead th { font-size: max(.74rem, 12px); }
+
+/* Liens de contact isoles : surface tactile suffisante */
+.contact-link,
+.bl-carte dd a,
+.bl-carte ul a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+}
+
+/* Liens de listes isoles (pied de page, colonne laterale, vignettes) */
+.footer-nav ul a,
+.footer-produits ul a,
+.bl-carte ul a,
+.bl-vignette .bl-lire { display: inline-flex; align-items: center; min-height: 24px; }
+
+/* Derniers ecarts au seuil tactile de 24 px */
+.breadcrumb-inner a,
+.bl-vignette-corps h3 a { display: inline-flex; align-items: center; min-height: 24px; }
+
+/* ══════════════════════════════════════════════════════
+   BOUTONS SUR ECRAN ETROIT
+   .btn porte white-space: nowrap : un libelle long sortait de
+   l'ecran, et body { overflow-x: hidden } le rendait inatteignable.
+══════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .btn {
+    white-space: normal;
+    max-width: 100%;
+    text-align: center;
+    hyphens: auto;
+  }
+  .bl-cta-boutons .btn,
+  .bl-hero-actions .btn { width: 100%; }
+}
+
+/* ══════════════════════════════════════════════════════
+   REPLI SI GSAP NE SE CHARGE PAS
+   Pose par le script de page lorsque le CDN est injoignable.
+══════════════════════════════════════════════════════ */
+.sans-gsap [data-animate],
+.sans-gsap .hero-anim,
+.sans-gsap .page-hero-eyebrow,
+.sans-gsap .page-hero-title,
+.sans-gsap .page-hero-sub,
+.sans-gsap .hero-scroll-cue {
+  opacity: 1 !important;
+  transform: none !important;
 }

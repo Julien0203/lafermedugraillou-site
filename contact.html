@@ -42,7 +42,7 @@
         "name": "La Ferme du Graillou",
         "url": "https://www.lafermedugraillou.fr",
         "telephone": "+33-6-76-98-41-55",
-        "email": "elodiebertrand1@gmail.com",
+        "email": "elodie.bertrand1@orange.fr",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Le Bourg",
@@ -152,7 +152,7 @@
                 <svg class="contact-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/></svg>
                 <div>
                   <strong>Email</strong>
-                  <a href="mailto:elodiebertrand1@gmail.com" class="contact-link">elodiebertrand1@gmail.com</a>
+                  <a href="mailto:elodie.bertrand1@orange.fr" class="contact-link">elodie.bertrand1@orange.fr</a>
                 </div>
               </div>
             </address>
@@ -246,10 +246,26 @@
           </p>
         </div>
 
+        <!-- ENVOI DU FORMULAIRE — une seule chose a faire pour l'activer :
+             1. aller sur https://web3forms.com
+             2. saisir elodie.bertrand1@orange.fr (ni compte ni mot de passe)
+             3. la cle recue par mail remplace CLE_ACCES_WEB3FORMS ci-dessous
+             Les messages arriveront alors directement dans cette boite.
+             Tant que la cle n'est pas renseignee, le formulaire le signale au
+             visiteur et ouvre son logiciel de messagerie : aucun message
+             n'est perdu silencieusement. -->
         <form class="contact-form" data-animate="fade-up" style="--anim-delay:200ms"
-              action="mailto:elodiebertrand1@gmail.com"
+              action="https://api.web3forms.com/submit"
               method="POST"
-              enctype="text/plain">
+              data-cle="CLE_ACCES_WEB3FORMS"
+              data-destinataire="elodie.bertrand1@orange.fr">
+          <input type="hidden" name="access_key" value="CLE_ACCES_WEB3FORMS">
+          <input type="hidden" name="subject" value="Message depuis lafermedugraillou.fr">
+          <input type="hidden" name="from_name" value="Site La Ferme du Graillou">
+          <!-- piege a robots : invisible, jamais rempli par un humain -->
+          <p class="form-pot" aria-hidden="true">
+            <label>Ne pas remplir <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label>
+          </p>
           <div class="form-grid">
             <div class="form-group">
               <label class="form-label" for="nom">Nom</label>
@@ -274,6 +290,7 @@
           </div>
           <div class="form-submit" style="text-align:center;">
             <button type="submit" class="btn btn-primary">Envoyer le message</button>
+            <p class="form-status" role="status" aria-live="polite" hidden></p>
           </div>
           <p class="form-note">Ou appelez-nous directement au <a href="tel:+33676984155" style="color:var(--rouge); font-weight:700;">06 76 98 41 55</a></p>
         </form>
@@ -326,6 +343,81 @@
   (() => {
     'use strict';
     document.getElementById('yr').textContent = new Date().getFullYear();
+
+    /* ── Filet de securite GSAP ─────────────────────────────────────
+       Les elements [data-animate] sont masques par CSS (opacity:0) et
+       reveles par GSAP, charge depuis un CDN. Si ce CDN ne repond pas
+       — panne, pare-feu, bloqueur, reseau lent — rien n'etait jamais
+       revele : 64 blocs de texte sur 87 restaient invisibles, dont le
+       formulaire de contact. Le repli ci-dessous rend tout visible.  */
+    const sansGsap = () => document.documentElement.classList.add('sans-gsap');
+    const verifierGsap = () => { if (typeof window.gsap === 'undefined' ||
+                                     typeof window.ScrollTrigger === 'undefined') sansGsap(); };
+    window.addEventListener('load', verifierGsap);
+    setTimeout(verifierGsap, 3000);   // au cas ou le CDN suspend l'evenement load
+
+
+    /* ── Envoi du formulaire de contact ─────────────────────────────
+       L'ancienne version combinait action="mailto:" et method="POST",
+       combinaison qu'aucun navigateur moderne n'honore : les demandes
+       partaient dans le vide, sans erreur visible. Envoi en arriere-plan
+       via Web3Forms, avec repli explicite tant que la cle n'est pas
+       renseignee.                                                     */
+    const form = document.querySelector('.contact-form');
+    if (form) {
+      const etat   = form.querySelector('.form-status');
+      const bouton = form.querySelector('button[type="submit"]');
+      const MAIL   = form.dataset.destinataire;
+      const TEL    = '06 76 98 41 55';
+      const configure = form.dataset.cle && !form.dataset.cle.startsWith('CLE_ACCES');
+
+      const dire = (texte, type) => {
+        etat.textContent = texte;
+        etat.className = 'form-status form-status--' + type;
+        etat.hidden = false;
+        etat.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      };
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (!configure) {
+          const d = new FormData(form);
+          const corps = encodeURIComponent(
+            'Nom : ' + (d.get('nom') || '') +
+            '\nTelephone : ' + (d.get('telephone') || '') +
+            '\nEmail : ' + (d.get('email') || '') +
+            '\n\n' + (d.get('message') || ''));
+          const sujet = encodeURIComponent(d.get('sujet') || 'Message depuis le site');
+          dire("L'envoi automatique n'est pas encore activé. Votre logiciel de messagerie va s'ouvrir pour que votre message parte quand même — ou écrivez-nous à " + MAIL + '.', 'attente');
+          window.location.href = 'mailto:' + MAIL + '?subject=' + sujet + '&body=' + corps;
+          return;
+        }
+
+        const libelle = bouton.textContent;
+        bouton.disabled = true;
+        bouton.textContent = 'Envoi…';
+        try {
+          const r = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' }
+          });
+          const j = await r.json().catch(() => ({}));
+          if (r.ok && j.success !== false) {
+            form.reset();
+            dire('Merci, votre message est bien parti. Nous vous répondons rapidement.', 'ok');
+          } else {
+            dire(j.message || ("L'envoi a échoué. Écrivez-nous directement à " + MAIL + ' ou appelez le ' + TEL + '.'), 'erreur');
+          }
+        } catch {
+          dire('Envoi impossible pour le moment. Écrivez-nous à ' + MAIL + ' ou appelez le ' + TEL + '.', 'erreur');
+        } finally {
+          bouton.disabled = false;
+          bouton.textContent = libelle;
+        }
+      });
+    }
     const bar = document.querySelector('.scroll-progress');
     window.addEventListener('scroll', () => {
       const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
@@ -360,7 +452,7 @@
   <!-- GSAP + ScrollTrigger -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-  <script src="gsap-animations.js?v=3" defer></script>
+  <script src="gsap-animations.js?v=4" defer></script>
 
 </body>
 </html>
