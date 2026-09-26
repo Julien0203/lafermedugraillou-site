@@ -1633,3 +1633,177 @@ figcaption {
   .hero { min-height: auto; page-break-after: always; }
   .section { page-break-inside: avoid; }
 }
+
+/* ══════════════════════════════════════════════════════
+   LE CARNET — pages editoriales du blog
+══════════════════════════════════════════════════════ */
+
+/* — Fil d'Ariane — */
+.bl-fil { font-size: .8rem; color: var(--texte-lt); margin-bottom: 18px; }
+.bl-hero .bl-fil { color: rgba(250,247,242,.8); }
+.bl-hero .bl-fil a { color: var(--or-lt); }
+.bl-fil a { color: var(--or-txt); }
+.bl-fil a:hover { text-decoration: underline; }
+.bl-fil span[aria-current] { color: var(--texte-lt); }
+
+/* — Hero d'article — */
+.bl-hero { position: relative; min-height: clamp(460px, 60vh, 640px); display: flex; align-items: flex-end; overflow: hidden; }
+.bl-hero-media { position: absolute; inset: 0; }
+.bl-hero-media img { width: 100%; height: 100%; object-fit: cover; }
+.bl-hero-voile {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to top, rgba(20,14,12,.92) 0%, rgba(20,14,12,.45) 45%, rgba(20,14,12,.25) 100%);
+}
+/* Le header est fixe : sans reserve en haut, le fil d'Ariane passait dessous. */
+.bl-hero-inner { position: relative; z-index: 2; width: 100%; padding: clamp(96px, 12vw, 128px) 0 clamp(32px, 5vw, 56px); color: var(--creme); }
+.bl-hero .eyebrow { color: var(--or-lt); }
+.bl-hero h1 {
+  color: var(--creme);
+  font-size: clamp(1.95rem, 4.4vw, 3.15rem);
+  line-height: 1.08; letter-spacing: -.02em;
+  max-width: 20ch; margin-bottom: 14px;
+  text-shadow: 0 2px 24px rgba(0,0,0,.5);
+}
+.bl-hero-sous { font-size: clamp(1rem, 1.9vw, 1.16rem); color: rgba(250,247,242,.94); max-width: 60ch; line-height: 1.6; }
+.bl-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+
+/* — Bandeau de reassurance — */
+.bl-preuves { background: var(--rouge); color: var(--blanc); }
+.bl-preuves ul { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,.16); }
+.bl-preuves li { background: var(--rouge); padding: 22px 20px; text-align: center; }
+.bl-preuves b { display: block; font-family: var(--f-head); font-size: 1.28rem; margin-bottom: 3px; }
+.bl-preuves span { font-size: .8rem; color: rgba(255,255,255,.85); line-height: 1.45; }
+
+/* — Barre d'ancres — */
+.bl-ancres { position: sticky; top: 64px; z-index: 40; background: rgba(250,247,242,.97); backdrop-filter: blur(10px); border-bottom: 1px solid var(--creme-dk); }
+.bl-ancres ul { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding: 9px 0; }
+.bl-ancres ul::-webkit-scrollbar { display: none; }
+.bl-ancres a {
+  white-space: nowrap; font-size: .78rem; font-weight: 700; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--texte-lt); padding: 8px 14px; border-radius: 100px;
+  transition: background .2s, color .2s;
+}
+.bl-ancres a:hover { background: var(--creme-dk); color: var(--rouge); }
+
+/* — Corps d'article — */
+.bl-corps { padding: clamp(44px, 6vw, 76px) 0; }
+.bl-grille { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: clamp(32px, 5vw, 64px); align-items: start; }
+.bl-texte { max-width: 72ch; font-size: 1.04rem; line-height: 1.78; }
+.bl-texte > section { scroll-margin-top: 130px; }
+.bl-texte h2 {
+  font-size: clamp(1.55rem, 3vw, 2.12rem); line-height: 1.16;
+  margin: clamp(40px, 5vw, 62px) 0 18px; padding-top: 22px;
+  border-top: 1px solid var(--creme-dk);
+}
+.bl-texte > section:first-child h2 { margin-top: 0; border-top: 0; padding-top: 0; }
+.bl-texte h3 { font-size: clamp(1.12rem, 2vw, 1.34rem); margin: 30px 0 10px; }
+.bl-texte p { margin-bottom: 1.05rem; color: var(--texte); }
+.bl-texte ul, .bl-texte ol { margin: 0 0 1.2rem; padding-left: 0; }
+.bl-texte li { position: relative; padding-left: 26px; margin-bottom: .58rem; }
+.bl-texte ul > li::before {
+  content: ""; position: absolute; left: 6px; top: .72em;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--or); 
+}
+.bl-texte ol { counter-reset: n; }
+.bl-texte ol > li { counter-increment: n; }
+.bl-texte ol > li::before {
+  content: counter(n); position: absolute; left: 0; top: .1em;
+  font-family: var(--f-head); font-weight: 700; color: var(--or-txt); font-size: .95rem;
+}
+.bl-texte a:not(.btn) { color: var(--rouge); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.bl-texte a:not(.btn):hover { color: var(--rouge-lt); }
+
+/* — Encadres — */
+.bl-encadre {
+  background: var(--gris); border-left: 3px solid var(--or);
+  padding: 22px 26px; border-radius: 0 var(--radius) var(--radius) 0; margin: 28px 0;
+}
+.bl-encadre p:last-child { margin-bottom: 0; }
+.bl-encadre .bl-encadre-titre {
+  font-family: var(--f-body); font-size: .72rem; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--or-txt); margin-bottom: 10px;
+}
+
+/* — Tableau — */
+.bl-tableau { width: 100%; border-collapse: collapse; margin: 26px 0; font-size: .94rem; }
+.bl-tableau caption { text-align: left; font-size: .82rem; color: var(--texte-lt); padding-bottom: 10px; }
+.bl-tableau th, .bl-tableau td { text-align: left; padding: 13px 15px; border-bottom: 1px solid var(--creme-dk); vertical-align: top; }
+.bl-tableau thead th { background: var(--gris); font-family: var(--f-body); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--texte-lt); }
+.bl-tableau tbody th { font-weight: 700; color: var(--texte); }
+
+/* — Appel a l'action intercalaire — */
+.bl-cta {
+  background: var(--noir); color: var(--creme); border-radius: var(--radius-lg);
+  padding: clamp(26px, 4vw, 38px); margin: 38px 0; text-align: center;
+}
+.bl-cta p { color: rgba(250,247,242,.88); margin-bottom: 20px; max-width: 52ch; margin-inline: auto; }
+.bl-cta .bl-cta-titre { font-family: var(--f-head); font-size: clamp(1.25rem,2.4vw,1.6rem); color: var(--creme); margin-bottom: 10px; }
+.bl-cta-boutons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+/* — Colonne laterale — */
+.bl-aside { position: sticky; top: 132px; display: flex; flex-direction: column; gap: 18px; }
+.bl-carte { background: var(--blanc); border: 1px solid var(--creme-dk); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm); }
+.bl-carte h2, .bl-carte .bl-carte-titre {
+  font-family: var(--f-body); font-size: .72rem; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--or-txt); margin: 0 0 14px; border: 0; padding: 0;
+}
+.bl-carte dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 14px; font-size: .9rem; }
+.bl-carte dt { color: var(--texte-lt); }
+.bl-carte dd { font-weight: 700; }
+.bl-carte .btn { width: 100%; margin-top: 16px; }
+.bl-carte ul { display: flex; flex-direction: column; gap: 9px; font-size: .92rem; }
+.bl-carte ul a { color: var(--rouge); text-decoration: underline; text-underline-offset: 3px; }
+
+/* — FAQ — */
+.bl-faq { border-top: 1px solid var(--creme-dk); }
+.bl-faq details { border-bottom: 1px solid var(--creme-dk); }
+.bl-faq summary {
+  list-style: none; cursor: pointer; padding: 19px 44px 19px 0; position: relative;
+  font-family: var(--f-head); font-size: 1.06rem; font-weight: 600; line-height: 1.4;
+}
+.bl-faq summary::-webkit-details-marker { display: none; }
+.bl-faq summary::after {
+  content: "+"; position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  font-size: 1.5rem; font-weight: 300; color: var(--or-txt); line-height: 1;
+}
+.bl-faq details[open] summary::after { content: "–"; }
+.bl-faq details > div { padding: 0 0 20px; color: var(--texte-lt); }
+.bl-faq details > div p:last-child { margin-bottom: 0; }
+
+/* — Articles lies — */
+.bl-lies { background: var(--gris); }
+.bl-lies-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: 18px; }
+.bl-vignette {
+  background: var(--blanc); border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: var(--shadow-sm); display: flex; flex-direction: column;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.bl-vignette:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.bl-vignette img { aspect-ratio: 16/10; object-fit: cover; width: 100%; }
+.bl-vignette-corps { padding: 20px 22px 24px; display: flex; flex-direction: column; flex: 1; }
+.bl-vignette h3 { font-size: 1.14rem; line-height: 1.3; margin-bottom: 8px; }
+.bl-vignette p { font-size: .9rem; color: var(--texte-lt); line-height: 1.55; margin-bottom: 15px; flex: 1; }
+.bl-vignette .bl-lire { font-size: .76rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--rouge); }
+
+/* — Sommaire du carnet — */
+.bl-sommaire-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 22px; }
+
+/* — Responsive — */
+@media (max-width: 1024px) {
+  .bl-grille { grid-template-columns: 1fr; }
+  .bl-aside { position: static; flex-direction: row; flex-wrap: wrap; }
+  .bl-aside > * { flex: 1 1 280px; }
+  .bl-preuves ul { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .bl-ancres { top: 58px; }
+  .bl-texte { font-size: 1rem; }
+  .bl-hero-actions .btn { width: 100%; }
+  .bl-preuves ul { grid-template-columns: 1fr 1fr; }
+  .bl-tableau, .bl-tableau tbody, .bl-tableau tr, .bl-tableau td, .bl-tableau th { display: block; }
+  .bl-tableau thead { display: none; }
+  .bl-tableau tr { border-bottom: 2px solid var(--creme-dk); padding: 10px 0; }
+  .bl-tableau td, .bl-tableau th { border: 0; padding: 5px 0; }
+  .bl-tableau td::before { content: attr(data-col) " : "; font-weight: 700; color: var(--texte-lt); }
+}
