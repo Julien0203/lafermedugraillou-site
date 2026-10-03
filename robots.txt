@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://www.lafermedugraillou.fr/sitemap.xml
+Sitemap: https://www.fermedugraillou.fr/sitemap.xml
 
 # Crawl-delay recommandé
 Crawl-delay: 2
