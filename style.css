@@ -13,6 +13,11 @@
   --rouge-dk:     #5A0F10;
   --rouge-lt:     #9B2527;
   --or:           #C4965A;
+  /* Or lisible sur fond clair. #C4965A plafonne a 2,5:1 la ou AA exige
+     4,5:1 ; celui-ci tient 5,8:1 sur creme. La variable etait utilisee
+     par les pages du Carnet sans avoir jamais ete declaree : les
+     surtitres s'affichaient en gris herite. */
+  --or-txt:       #7E5A20;
   --or-lt:        #D4A96A;
   --or-pale:      #EDD9B5;
   --creme:        #FAF7F2;
@@ -47,7 +52,8 @@
   --ease-out:  cubic-bezier(0, 0, 0.2, 1);
 
   --max-w: 1200px;
-  --section-py: 96px;
+  --section-py: 132px;
+  --mesure: 68ch;
 }
 
 /* ──────────────────────────────────────────────────────
@@ -81,7 +87,9 @@ ul, ol { list-style: none; }
 address { font-style: normal; }
 button { font-family: inherit; cursor: pointer; }
 
-strong { font-weight: 700; color: var(--rouge); }
+/* Le gras rouge applique a chaque mot-cle donnait au texte courant un
+   aspect de bourrage de mots-cles. L'emphase se marque par la graisse. */
+strong { font-weight: 700; color: inherit; }
 em { font-style: italic; }
 p { margin-bottom: .8rem; }
 p:last-child { margin-bottom: 0; }
@@ -112,12 +120,21 @@ p:last-child { margin-bottom: 0; }
 /* ──────────────────────────────────────────────────────
    5. TYPOGRAPHIE FLUIDE
 ────────────────────────────────────────────────────── */
-h1, h2, h3, h4 { font-family: var(--f-head); line-height: 1.15; color: var(--texte); }
+h1, h2, h3, h4 {
+  font-family: var(--f-head);
+  line-height: 1.1;
+  letter-spacing: -.018em;
+  color: var(--texte);
+  text-wrap: balance;        /* evite les veuves sur les titres courts */
+}
+p, li { text-wrap: pretty; }
 
 .section-title {
-  font-size: clamp(1.9rem, 4.5vw, 3rem);
+  font-size: clamp(2.2rem, 5.6vw, 4rem);
   font-weight: 700;
-  margin-bottom: var(--sp-sm);
+  line-height: 1.02;
+  letter-spacing: -.025em;
+  margin-bottom: var(--sp-md);
 }
 .section-title--light { color: var(--creme); }
 
@@ -239,7 +256,7 @@ h1, h2, h3, h4 { font-family: var(--f-head); line-height: 1.15; color: var(--tex
 
 .img-frame:hover img { transform: scale(1.04); }
 
-.img-frame--tall img { aspect-ratio: 4/5; }
+.img-frame--tall img { aspect-ratio: 1/1; }
 
 figcaption {
   font-size: .78rem;
@@ -397,9 +414,12 @@ figcaption {
 .hero-overlay {
   position: absolute;
   inset: 0;
+  /* Voile radial central en plus des degrades : sans lui le titre se
+     posait directement sur les visages, sans separation lisible. */
   background:
-    linear-gradient(to top, rgba(26,26,26,.85) 0%, rgba(26,26,26,.1) 50%),
-    linear-gradient(165deg, rgba(12,12,12,.5) 0%, transparent 60%);
+    radial-gradient(ellipse 92% 64% at 50% 44%, rgba(18,13,11,.60) 0%, transparent 74%),
+    linear-gradient(to top, rgba(26,26,26,.88) 0%, rgba(26,26,26,.12) 56%),
+    linear-gradient(165deg, rgba(12,12,12,.42) 0%, transparent 62%);
 }
 
 .hero-content {
@@ -523,10 +543,15 @@ figcaption {
   color: var(--blanc);
 }
 
-.stat-item > :first-child {
+/* Le suffixe doit suivre le nombre sur la meme ligne. L'ancienne regle
+   ciblait .stat-num lui-meme, pas un conteneur : le « % » tombait donc
+   a la ligne en dessous du chiffre. */
+.stat-value {
   display: flex;
   align-items: baseline;
-  gap: 2px;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
 }
 
 .stat-num {
@@ -1210,7 +1235,7 @@ figcaption {
    23. RESPONSIVE — TABLETTE PAYSAGE (≤ 1100px)
 ────────────────────────────────────────────────────── */
 @media (max-width: 1100px) {
-  :root { --section-py: 80px; }
+  :root { --section-py: 100px; }
 
   .valeurs-grid { grid-template-columns: repeat(2, 1fr); }
 
@@ -1234,7 +1259,7 @@ figcaption {
    24. RESPONSIVE — TABLETTE PORTRAIT (≤ 900px)
 ────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
-  :root { --section-py: 56px; }
+  :root { --section-py: 76px; }
 
   .nav-toggle { display: flex; }
 
@@ -1969,4 +1994,85 @@ figcaption {
 @media (max-width: 640px) {
   .avis-carte { padding: 22px 20px 18px; }
   .avis-pied { font-size: .8rem; }
+}
+
+/* ══════════════════════════════════════════════════════
+   FINITION — details qui separent un site correct
+   d'un site soigne
+══════════════════════════════════════════════════════ */
+
+html {
+  color-scheme: light;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* Playfair a un dessin fin : on laisse le moteur ajuster l'oeil
+   selon la taille, et on active les ligatures et chiffres elzeviriens
+   la ou ils servent le propos. */
+h1, h2, h3, h4 {
+  font-optical-sizing: auto;
+  font-feature-settings: "liga" 1, "kern" 1;
+}
+.stat-num, .feature-num {
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Anneau de focus visible au clavier uniquement : indispensable a
+   l'accessibilite, et absent jusqu'ici. */
+:focus-visible {
+  outline: 2px solid var(--or-txt);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+.btn:focus-visible,
+.nav-cta:focus-visible { outline-color: var(--creme); outline-offset: 4px; }
+
+::selection { background: var(--or-pale); color: var(--noir); }
+
+/* Ombres : trois couches courtes valent mieux qu'une large et molle.
+   Le regard lit une elevation, pas un halo. */
+:root {
+  --shadow-sm: 0 1px 2px rgba(26,16,10,.05), 0 2px 8px rgba(26,16,10,.05);
+  --shadow:    0 1px 2px rgba(26,16,10,.06), 0 4px 14px rgba(26,16,10,.07),
+               0 12px 34px rgba(26,16,10,.06);
+  --shadow-lg: 0 2px 4px rgba(26,16,10,.06), 0 8px 24px rgba(26,16,10,.09),
+               0 24px 64px rgba(26,16,10,.10);
+}
+
+/* Liens dans le texte courant : soulignement discret plutot que
+   couleur seule, qui exclut les daltoniens. */
+.split-text a:not(.btn),
+.produit-content a:not(.btn),
+.intro-text a:not(.btn) {
+  text-decoration: underline;
+  text-underline-offset: .18em;
+  text-decoration-thickness: from-font;
+  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+  transition: text-decoration-color .2s var(--ease);
+}
+.split-text a:not(.btn):hover,
+.produit-content a:not(.btn):hover,
+.intro-text a:not(.btn):hover { text-decoration-color: currentColor; }
+
+/* Petites capitales : a cette taille, l'approche doit s'ouvrir pour
+   rester lisible, et la graisse se retenir. */
+.eyebrow, .produit-category, .footer-nav-title, .hero-eyebrow {
+  font-weight: 700;
+  letter-spacing: .24em;
+}
+
+/* Les etiquettes passaient a la ligne en orpheline. */
+.tag { white-space: nowrap; }
+
+/* Survol : un deplacement court se lit comme une reponse,
+   un deplacement long comme un effet. */
+.feature-card, .valeur-card, .bl-vignette, .avis-carte {
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+@media (hover: hover) {
+  .feature-card:hover, .valeur-card:hover { transform: translateY(-3px); }
 }
