@@ -2314,3 +2314,57 @@ h1, h2, h3, h4 {
   .page-hero-actions { flex-direction: column; align-items: center; width: 100%; }
   .page-hero-actions .btn { width: 100%; max-width: 320px; text-align: center; justify-content: center; }
 }
+
+
+/* ──────────────────────────────────────────────────────
+   30. TEMOIGNAGE AU PLUS PRES DE L'ACTION
+   Les huit avis Google vivaient sur la seule page
+   d'accueil. Un avis ne sert nulle part autant qu'a
+   cote du bouton : on met ici une version compacte,
+   un seul avis, adjacent au CTA de la page.
+────────────────────────────────────────────────────── */
+/* La section hote applique --section-py (132 px) en haut et en bas :
+   beaucoup trop pour une carte compacte dont tout l'interet est d'etre
+   collee au bouton. On resserre. */
+.section--temoignage { padding: 36px 0 12px; }
+
+.temoignage {
+  max-width: var(--mesure);
+  margin: 0 auto;
+  padding: 22px 24px;
+  background: var(--blanc);
+  border: 1px solid var(--creme-dk);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.temoignage-tete {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.temoignage-etoiles { display: inline-flex; gap: 2px; }
+.temoignage-etoiles svg { width: 15px; height: 15px; fill: #F5A623; }
+
+.temoignage-g { width: 16px; height: 16px; margin-left: auto; flex-shrink: 0; }
+
+.temoignage-texte {
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--texte);
+  margin: 0;
+}
+
+.temoignage-signature {
+  margin-top: 12px;
+  font-size: .84rem;
+  color: var(--texte-lt);
+}
+.temoignage-signature strong { font-weight: 700; color: var(--texte); }
+
+@media (max-width: 600px) {
+  .temoignage { padding: 18px 16px; }
+  .temoignage-texte { font-size: .97rem; }
+}
