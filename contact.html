@@ -23,7 +23,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
   <link rel="apple-touch-icon" href="images/favicon-180.png">
-  <link rel="stylesheet" href="style.css?v=4d8964a5">
+  <link rel="stylesheet" href="style.css?v=83e91969">
 
   <!-- Schema.org -->
   <script type="application/ld+json">
@@ -620,7 +620,7 @@
              Tant que la cle n'est pas renseignee, le formulaire le signale au
              visiteur et ouvre son logiciel de messagerie : aucun message
              n'est perdu silencieusement. -->
-        <form class="contact-form" data-animate="fade-up" style="--anim-delay:200ms"
+        <form class="contact-form" novalidate data-animate="fade-up" style="--anim-delay:200ms"
               action="https://api.web3forms.com/submit"
               method="POST"
               data-cle="CLE_ACCES_WEB3FORMS"
@@ -636,27 +636,32 @@
             <div class="form-group">
               <label class="form-label" for="nom">Nom</label>
               <input class="form-input" type="text" id="nom" name="nom" placeholder="Votre nom" required autocomplete="name">
+              <span class="form-erreur" id="err-nom" hidden></span>
             </div>
             <div class="form-group">
               <label class="form-label" for="email">Email</label>
               <input class="form-input" type="email" id="email" name="email" placeholder="votre@email.fr" required autocomplete="email">
+              <span class="form-erreur" id="err-email" hidden></span>
             </div>
             <div class="form-group">
               <label class="form-label" for="telephone">Téléphone</label>
               <input class="form-input" type="tel" id="telephone" name="telephone" placeholder="06 XX XX XX XX" autocomplete="tel">
+              <span class="form-erreur" id="err-telephone" hidden></span>
             </div>
             <div class="form-group">
               <label class="form-label" for="sujet">Sujet</label>
               <input class="form-input" type="text" id="sujet" name="sujet" placeholder="Commande, renseignement…">
+              <span class="form-erreur" id="err-sujet" hidden></span>
             </div>
             <div class="form-group form-group--full">
               <label class="form-label" for="message">Message</label>
               <textarea class="form-textarea" id="message" name="message" placeholder="Votre message…" required></textarea>
+              <span class="form-erreur" id="err-message" hidden></span>
             </div>
           </div>
           <div class="form-submit" style="text-align:center;">
             <button type="submit" class="btn btn-primary">Envoyer le message</button>
-            <p class="form-status" role="status" aria-live="polite" hidden></p>
+            <p class="form-status" role="status" aria-live="polite" tabindex="-1" hidden></p>
           </div>
           <p class="form-note">Ou appelez-nous directement au <a href="tel:+33676984155" style="color:var(--rouge); font-weight:700;">06 76 98 41 55</a></p>
         </form>
@@ -755,15 +760,120 @@
       const TEL    = '06 76 98 41 55';
       const configure = form.dataset.cle && !form.dataset.cle.startsWith('CLE_ACCES');
 
-      const dire = (texte, type) => {
+      /* Deux barres fixes encadrent la page : l'en-tete en haut, la barre
+         d'action en bas sur mobile. Amener un element « dans la vue » sans
+         en tenir compte le depose dessous. On calcule la bande reellement
+         lisible. */
+      const zoneLisible = () => {
+        const h = document.querySelector('.site-header');
+        const b = document.querySelector('.barre-action');
+        const hb = h && getComputedStyle(h).position === 'fixed'
+                 ? h.getBoundingClientRect().height : 0;
+        const bb = b && getComputedStyle(b).display !== 'none'
+                 ? b.getBoundingClientRect().height : 0;
+        return { haut: hb + 12, bas: window.innerHeight - bb - 12 };
+      };
+
+      /* Ne defile que si c'est necessaire, et jamais en douceur pour qui
+         demande moins d'animation. Sans ce garde-fou, une soumission au
+         clavier depuis le premier champ projetait la page 419 px plus bas. */
+      const amener = (el) => {
+        const z = zoneLisible();
+        const r = el.getBoundingClientRect();
+        /* Defilement minimal : juste ce qu'il faut pour que l'element
+           tienne dans la bande lisible, jamais un centrage. Centrer
+           deplacait la page de 400 a 700 px la ou une dizaine suffisait,
+           voire rien du tout. */
+        let delta = 0;
+        if (r.bottom > z.bas) delta = r.bottom - z.bas;
+        if (r.top - delta < z.haut) delta = r.top - z.haut;
+        if (Math.abs(delta) < 2) return;
+        const doux = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: Math.max(0, window.scrollY + delta),
+                          behavior: doux ? 'smooth' : 'instant' });
+      };
+
+      const dire = (texte, type, prendreLeFocus = true) => {
         etat.textContent = texte;
         etat.className = 'form-status form-status--' + type;
         etat.hidden = false;
-        etat.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        /* Apres un envoi, on amene le statut sous les yeux et on lui donne
+           le focus : c'est le resultat qu'on vient chercher. Apres une
+           erreur de saisie, ni l'un ni l'autre — le statut est annonce par
+           aria-live, et c'est le champ a corriger qui doit rester sous les
+           yeux. Defiler vers le statut deplacait la page de 490 px, loin
+           du champ fautif. */
+        if (prendreLeFocus) {
+          amener(etat);
+          etat.focus({ preventScroll: true });
+        }
       };
+
+      /* Messages en francais, maitrises : les messages natifs dependent de
+         la langue de l'interface du navigateur, pas de celle de la page. */
+      const LIBELLES = {
+        nom:     { vide: 'Merci d’indiquer votre nom.' },
+        email:   { vide: 'Merci d’indiquer une adresse e-mail pour que nous puissions vous répondre.',
+                   format: 'Cette adresse semble incomplète. Exemple : prenom@exemple.fr' },
+        message: { vide: 'Dites-nous en quelques mots ce que vous cherchez.' },
+        telephone: { format: 'Ce numéro ne ressemble pas à un téléphone. Vous pouvez aussi laisser le champ vide.' },
+      };
+
+      const erreurDe = (champ) => {
+        const l = LIBELLES[champ.name] || {};
+        if (champ.validity.valueMissing) return l.vide || 'Ce champ est nécessaire.';
+        if (champ.validity.typeMismatch || champ.validity.patternMismatch)
+          return l.format || 'Le format attendu n’est pas respecté.';
+        return champ.validationMessage;
+      };
+
+      const marquer = (champ, message) => {
+        const zone = document.getElementById('err-' + champ.id);
+        if (!zone) return;
+        if (message) {
+          zone.textContent = message;
+          zone.hidden = false;
+          champ.setAttribute('aria-invalid', 'true');
+          champ.setAttribute('aria-describedby', zone.id);
+          champ.classList.add('form-input--erreur');
+        } else {
+          zone.hidden = true;
+          zone.textContent = '';
+          champ.removeAttribute('aria-invalid');
+          champ.removeAttribute('aria-describedby');
+          champ.classList.remove('form-input--erreur');
+        }
+      };
+
+      /* L'erreur disparait des que le visiteur corrige : laisser un message
+         rouge sous un champ devenu valide est une punition gratuite. */
+      form.querySelectorAll('input, textarea').forEach((c) => {
+        c.addEventListener('input', () => { if (c.checkValidity()) marquer(c, ''); });
+        c.addEventListener('blur', () => {
+          if (c.value && !c.checkValidity()) marquer(c, erreurDe(c));
+        });
+      });
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        /* Validation maison : on signale tous les champs d'un coup plutot
+           qu'un par un, et on amene le premier fautif dans la bande
+           lisible, pas sous l'en-tete fixe. */
+        const champs = [...form.querySelectorAll('input:not([type=hidden]), textarea')]
+                       .filter((c) => c.name !== 'botcheck');
+        let premier = null;
+        champs.forEach((c) => {
+          const ok = c.checkValidity();
+          marquer(c, ok ? '' : erreurDe(c));
+          if (!ok && !premier) premier = c;
+        });
+        if (premier) {
+          dire('Le formulaire n’est pas encore complet. Les champs à corriger sont signalés ci-dessus.', 'erreur', false);
+          amener(premier);
+          premier.focus({ preventScroll: true });
+          return;
+        }
 
         if (!configure) {
           const d = new FormData(form);
@@ -773,13 +883,14 @@
             '\nEmail : ' + (d.get('email') || '') +
             '\n\n' + (d.get('message') || ''));
           const sujet = encodeURIComponent(d.get('sujet') || 'Message depuis le site');
-          dire("L'envoi automatique n'est pas encore activé. Votre logiciel de messagerie va s'ouvrir pour que votre message parte quand même — ou écrivez-nous à " + MAIL + '.', 'attente');
+          dire('L’envoi automatique n’est pas encore activé. Votre logiciel de messagerie va s’ouvrir pour que votre message parte quand même — ou écrivez-nous à ' + MAIL + '.', 'attente');
           window.location.href = 'mailto:' + MAIL + '?subject=' + sujet + '&body=' + corps;
           return;
         }
 
         const libelle = bouton.textContent;
         bouton.disabled = true;
+        bouton.setAttribute('aria-busy', 'true');
         bouton.textContent = 'Envoi…';
         try {
           const r = await fetch(form.action, {
@@ -790,18 +901,21 @@
           const j = await r.json().catch(() => ({}));
           if (r.ok && j.success !== false) {
             form.reset();
+            champs.forEach((c) => marquer(c, ''));
             dire('Merci, votre message est bien parti. Nous vous répondons rapidement.', 'ok');
           } else {
-            dire(j.message || ("L'envoi a échoué. Écrivez-nous directement à " + MAIL + ' ou appelez le ' + TEL + '.'), 'erreur');
+            dire(j.message || ('L’envoi a échoué. Écrivez-nous directement à ' + MAIL + ' ou appelez le ' + TEL + '.'), 'erreur');
           }
         } catch {
           dire('Envoi impossible pour le moment. Écrivez-nous à ' + MAIL + ' ou appelez le ' + TEL + '.', 'erreur');
         } finally {
           bouton.disabled = false;
+          bouton.removeAttribute('aria-busy');
           bouton.textContent = libelle;
         }
       });
     }
+
     const bar = document.querySelector('.scroll-progress');
     window.addEventListener('scroll', () => {
       const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);

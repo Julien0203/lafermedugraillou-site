@@ -2368,3 +2368,35 @@ h1, h2, h3, h4 {
   .temoignage { padding: 18px 16px; }
   .temoignage-texte { font-size: .97rem; }
 }
+
+
+/* ──────────────────────────────────────────────────────
+   31. ERREURS DE FORMULAIRE
+   Le message vit sous son champ, relie par aria-describedby,
+   et ne compte pas uniquement sur la couleur : un signe
+   le precede, pour qui ne distingue pas le rouge.
+────────────────────────────────────────────────────── */
+.form-erreur {
+  display: block;
+  margin-top: 6px;
+  font-size: .85rem;
+  line-height: 1.45;
+  color: var(--rouge);
+}
+.form-erreur::before {
+  content: "\26A0\FE0E";
+  margin-right: 6px;
+  font-weight: 700;
+}
+.form-erreur[hidden] { display: none; }
+
+.form-input--erreur {
+  border-color: var(--rouge);
+  background: rgba(123, 21, 23, .035);
+}
+.form-input--erreur:focus-visible { outline-color: var(--rouge); }
+
+/* Le statut recoit le focus apres envoi : il ne doit pas afficher
+   d'anneau permanent, mais rester reperable au clavier. */
+.form-status:focus { outline: none; }
+.form-status:focus-visible { outline: 3px solid var(--or-txt); outline-offset: 3px; }
