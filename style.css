@@ -2173,3 +2173,60 @@ h1, h2, h3, h4 {
   /* Menu ouvert : la barre passe dessous, sinon elle flotte par-dessus. */
   body.menu-open .barre-action { z-index: 1; }
 }
+
+
+/* ──────────────────────────────────────────────────────
+   28. PLAN DU SITE
+   Une liste n'a pas besoin d'etre aride : chaque entree
+   porte une ligne de contexte, pour que la page serve
+   aussi a quelqu'un qui ne sait pas encore ce qu'il
+   cherche.
+────────────────────────────────────────────────────── */
+.plan-intro { max-width: var(--mesure); margin: 0 auto; }
+.plan-intro a { color: var(--rouge); text-decoration: underline; text-underline-offset: 3px; }
+
+.plan-bloc { margin-top: 56px; }
+.plan-bloc:first-of-type { margin-top: 40px; }
+
+.plan-titre {
+  font-family: var(--f-titre);
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  line-height: 1.15;
+  letter-spacing: -.015em;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--creme-dk);
+}
+
+.plan-chapeau {
+  margin-top: 10px;
+  color: var(--texte-lt);
+  font-size: .95rem;
+}
+
+.plan-liste { list-style: none; margin-top: 20px; display: grid; gap: 4px; }
+
+.plan-item {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  transition: background .2s var(--ease);
+}
+.plan-item:hover { background: var(--creme-dk); }
+
+.plan-item > a {
+  font-weight: 600;
+  color: var(--rouge);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  /* cible tactile confortable sans etirer le soulignement */
+  justify-self: start;
+  padding: 2px 0;
+}
+
+.plan-desc { color: var(--texte-lt); font-size: .92rem; line-height: 1.6; }
+
+@media (max-width: 600px) {
+  .plan-bloc { margin-top: 40px; }
+  .plan-item { padding: 12px 12px; }
+}
