@@ -1907,3 +1907,66 @@ figcaption {
   opacity: 1 !important;
   transform: none !important;
 }
+
+/* ══════════════════════════════════════════════════════
+   AVIS CLIENTS
+   Temoignages reels publies sur Google. Volontairement sans
+   balisage aggregateRating : la regle de Google sur les avis
+   « auto-promotionnels » vise precisement une entreprise qui
+   balise sur son propre site des avis la concernant.
+══════════════════════════════════════════════════════ */
+.section-avis { background: var(--creme); }
+
+.avis-grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.avis-carte {
+  background: var(--blanc);
+  border: 1px solid var(--creme-dk);
+  border-radius: var(--radius-lg);
+  padding: 26px 26px 22px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.avis-etoiles { color: #E8A317; font-size: 1rem; letter-spacing: 2px; line-height: 1; }
+
+.avis-texte {
+  font-size: .97rem;
+  line-height: 1.68;
+  color: var(--texte);
+  margin: 0;
+  flex: 1;
+}
+.avis-texte::before { content: "« "; color: var(--or-txt); }
+.avis-texte::after  { content: " »"; color: var(--or-txt); }
+
+.avis-pied {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px solid var(--creme-dk);
+  font-size: .84rem;
+}
+.avis-nom { font-weight: 700; color: var(--texte); }
+.avis-date { color: var(--texte-lt); }
+.avis-source { margin-left: auto; color: var(--texte-lt); font-size: .78rem; }
+
+.avis-lien {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}
+
+@media (max-width: 640px) {
+  .avis-carte { padding: 22px 20px 18px; }
+  .avis-pied { font-size: .8rem; }
+}
