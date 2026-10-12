@@ -2400,3 +2400,125 @@ h1, h2, h3, h4 {
    d'anneau permanent, mais rester reperable au clavier. */
 .form-status:focus { outline: none; }
 .form-status:focus-visible { outline: 3px solid var(--or-txt); outline-offset: 3px; }
+
+
+/* ──────────────────────────────────────────────────────
+   32. DONNEES CHIFFREES
+   Tableaux et graphique de la page des chiffres cles.
+   Regle de lecture : la source est dans le tableau, pas
+   en note de bas de page. Un chiffre sans sa source ne
+   vaut rien.
+────────────────────────────────────────────────────── */
+.donnees {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 28px 0 10px;
+  font-size: .94rem;
+  /* minmax implicite : sans min-width, une cellule large fait deborder
+     le tableau hors de son conteneur sur petit ecran. */
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.donnees caption {
+  display: block;
+  text-align: left;
+  font-weight: 700;
+  color: var(--texte);
+  margin-bottom: 10px;
+}
+.donnees th,
+.donnees td {
+  padding: 11px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--creme-dk);
+}
+.donnees thead th {
+  font-size: .76rem;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--texte-lt);
+  border-bottom-width: 2px;
+}
+.donnees tbody tr:last-child td { border-bottom: 0; }
+.donnees tbody td:nth-child(2) { font-variant-numeric: lining-nums tabular-nums; font-weight: 600; }
+.donnees a { color: var(--rouge); text-decoration: underline; text-underline-offset: 2px; }
+
+.donnees-source { font-size: .85rem; color: var(--texte-lt); margin-top: 4px; }
+
+/* ── Graphique ── */
+.graphe { margin: 32px 0 8px; }
+.graphe-titre { font-weight: 700; font-size: 1.02rem; color: var(--texte); }
+.graphe-sous { font-size: .9rem; color: var(--texte-lt); margin: 4px 0 14px; }
+.graphe-svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+/* Grille et axes : traits pleins d'un cheveu, une nuance au-dessus du
+   fond. Jamais de pointilles, qui se lisent comme un seuil. */
+.graphe-grille line { stroke: var(--creme-dk); stroke-width: 1; }
+.graphe-axe-y text { font-size: 11px; fill: var(--texte-lt); text-anchor: end; }
+.graphe-axe-x text { font-size: 12px; fill: var(--texte-lt); text-anchor: middle; }
+
+/* Une seule serie : une seule couleur, et pas de legende — le titre
+   nomme la serie. #9B2527 a ete valide contre le fond creme. */
+.graphe-ligne {
+  fill: none;
+  stroke: var(--rouge-lt);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.graphe-points circle {
+  fill: var(--rouge-lt);
+  stroke: var(--creme);
+  stroke-width: 2;          /* anneau de surface, pas un contour decoratif */
+  transition: r .15s var(--ease);
+}
+.graphe-points circle:hover,
+.graphe-points circle:focus-visible { r: 7; }
+
+/* Etiquettes directes sur trois points seulement : depart, creux,
+   arrivee. Une valeur sur chaque point serait illisible. */
+.graphe-etiq text {
+  font-size: 12px;
+  font-weight: 700;
+  fill: var(--texte);
+  text-anchor: middle;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.graphe-rupture { stroke: var(--texte-lt); stroke-width: 1; opacity: .35; }
+.graphe-rupture-txt { font-size: 10px; fill: var(--texte-lt); }
+
+.graphe { position: relative; }
+.graphe-bulle {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  background: var(--noir);
+  color: var(--creme);
+  font-size: .82rem;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 5;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.graphe-bulle[hidden] { display: none; }
+
+.graphe-note {
+  font-size: .85rem;
+  color: var(--texte-lt);
+  line-height: 1.6;
+  margin-top: 12px;
+  padding-left: 12px;
+  border-left: 2px solid var(--creme-dk);
+}
+
+@media (max-width: 600px) {
+  .donnees { font-size: .88rem; }
+  .donnees th, .donnees td { padding: 9px 10px; }
+  .graphe-axe-x text { font-size: 13px; }
+}
