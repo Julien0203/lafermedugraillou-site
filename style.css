@@ -829,7 +829,8 @@ figcaption {
 }
 
 /* CTA banner */
-.produits-cta-banner {
+.produits-cta-banner,
+.cta-banner {
   margin-top: clamp(48px, 7vw, 80px);
   margin-bottom: clamp(48px, 7vw, 80px);
   background: var(--rouge);
@@ -842,22 +843,26 @@ figcaption {
   flex-wrap: wrap;
 }
 
-.produits-cta-banner p {
+.produits-cta-banner p,
+.cta-banner p {
   font-size: clamp(.95rem, 2vw, 1.1rem);
   color: rgba(255,255,255,.9);
   margin: 0;
   max-width: 500px;
 }
 
-.produits-cta-banner strong { color: var(--or-lt); }
+.produits-cta-banner strong,
+.cta-banner strong { color: var(--or-lt); }
 
-.produits-cta-banner .btn-primary {
+.produits-cta-banner .btn-primary,
+.cta-banner .btn-primary {
   background: var(--blanc);
   color: var(--rouge);
   border-color: var(--blanc);
   flex-shrink: 0;
 }
-.produits-cta-banner .btn-primary:hover { background: var(--creme); border-color: var(--creme); }
+.produits-cta-banner .btn-primary:hover,
+.cta-banner .btn-primary:hover { background: var(--creme); border-color: var(--creme); }
 
 /* ──────────────────────────────────────────────────────
    16. SECTION TRANSHUMANCE
@@ -1428,11 +1433,13 @@ figcaption {
   /* full → pair → pair */
   .bento-a { grid-column: span 2; height: 220px; }
 
-  .produits-cta-banner {
+  .produits-cta-banner,
+  .cta-banner {
     flex-direction: column;
     text-align: center;
   }
-  .produits-cta-banner .btn { align-self: center; }
+  .produits-cta-banner .btn,
+  .cta-banner .btn { align-self: center; }
 
   .pano-quote { padding: 24px; }
   .pano-quote p { font-size: .95rem; }
@@ -1481,7 +1488,7 @@ figcaption {
   .horaires-table td { padding: 6px 2px; font-size: 0.88rem; }
 
   /* Page hero taille */
-  .page-hero { height: clamp(260px, 55vw, 340px); }
+  .page-hero { min-height: clamp(260px, 55vw, 340px); padding: 88px 0 40px; }
 
   /* Breadcrumb compact */
   .breadcrumb-inner { font-size: 0.76rem; }
@@ -1538,7 +1545,12 @@ html:has(.bl-ancres) { scroll-padding-top: 131px; }
 ────────────────────────────────────────────────────── */
 .page-hero {
   position: relative;
-  height: clamp(380px, 48vw, 520px);
+  /* min-height et non height : le hero porte desormais des boutons
+     d'action, et une hauteur figee faisait deborder le contenu par le
+     haut, jusqu'a passer sous l'en-tete fixe. Le padding haut reserve
+     la place de cet en-tete. */
+  min-height: clamp(380px, 48vw, 520px);
+  padding: 96px 0 48px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -1716,7 +1728,7 @@ html:has(.bl-ancres) { scroll-padding-top: 131px; }
 
 @media (max-width: 600px) {
   .form-grid { grid-template-columns: 1fr; }
-  .page-hero { height: clamp(280px, 60vw, 380px); }
+  .page-hero { min-height: clamp(280px, 60vw, 380px); padding: 92px 0 44px; }
   .page-hero-title { font-size: clamp(1.7rem, 7vw, 2.4rem); }
 }
 
@@ -2266,4 +2278,39 @@ h1, h2, h3, h4 {
 @media (max-width: 600px) {
   .plan-bloc { margin-top: 40px; }
   .plan-item { padding: 12px 12px; }
+}
+
+
+/* ──────────────────────────────────────────────────────
+   29. APPELS A L'ACTION DANS LES HEROS
+   Les heros des pages interieures n'en portaient aucun :
+   le visiteur arrivait sur la page sans action proposee
+   avant d'avoir fait defiler. Sans boutique en ligne,
+   l'action utile est l'appel.
+────────────────────────────────────────────────────── */
+.page-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: var(--sp-md);
+}
+.page-hero-actions .btn { min-height: 48px; }
+.page-hero-actions .btn-secondary {
+  /* Le bouton secondaire de base a un fond clair : pose sur une photo
+     avec un texte creme, il devenait creme sur creme. Sur le hero on le
+     veut detoure, pas rempli. */
+  background: transparent;
+  color: var(--creme);
+  border-color: rgba(var(--creme-rgb), .75);
+}
+.page-hero-actions .btn-secondary:hover {
+  background: var(--creme);
+  border-color: var(--creme);
+  color: var(--noir);
+}
+
+@media (max-width: 600px) {
+  .page-hero-actions { flex-direction: column; align-items: center; width: 100%; }
+  .page-hero-actions .btn { width: 100%; max-width: 320px; text-align: center; justify-content: center; }
 }
