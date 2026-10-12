@@ -1,8 +1,44 @@
+# La Ferme du Graillou — Cézens, Cantal
+# https://www.fermedugraillou.fr
+
+# ─────────────────────────────────────────────────────────────
+# Tous les robots
+# Le site est entierement public : pages, images, CSS et JS sont
+# ouverts au crawl. Bloquer les feuilles de style ou les scripts
+# empecherait Google de voir la page telle que la voit un visiteur.
+# ─────────────────────────────────────────────────────────────
 User-agent: *
 Allow: /
+Disallow: /vercel.json
+Disallow: /tools/
 
-# Sitemap
+# ─────────────────────────────────────────────────────────────
+# Robots des moteurs et assistants IA — acces explicitement autorise
+#
+# Attention en cas de modification : en robots.txt, les groupes ne
+# s'heritent pas. Un robot nomme ci-dessous ignore entierement le
+# groupe « * ». Toute nouvelle regle Disallow doit donc etre ajoutee
+# aux DEUX groupes, sinon ces robots ne la verront jamais.
+#
+# Google-Extended et Applebot-Extended ne sont pas des robots
+# d'exploration : ce sont des jetons de consentement. Les autoriser
+# permet l'usage du contenu par Gemini et Apple Intelligence, sans
+# influencer le crawl ni le referencement classique.
+# ─────────────────────────────────────────────────────────────
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: anthropic-ai
+User-agent: PerplexityBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+User-agent: Bingbot
+Allow: /
+Disallow: /vercel.json
+Disallow: /tools/
+
+# ─────────────────────────────────────────────────────────────
 Sitemap: https://www.fermedugraillou.fr/sitemap.xml
-
-# Crawl-delay recommandé
-Crawl-delay: 2
