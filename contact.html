@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nous Contacter | La Ferme du Graillou – Boutique Vente Directe à Cézens, Cantal</title>
-  <meta name="description" content="Contactez la Ferme du Graillou à Cézens (15230). Boutique ouverte 7j/7, 9h-19h (lun 10h). Tél : 06 76 98 41 55. Vente directe charcuterie Aubrac artisanale.">
+  <title>Boutique à la ferme à Cézens : horaires et contact</title>
+  <meta name="description" content="Venez à la Ferme du Graillou, Le Bourg à Cézens (15230). Boutique ouverte 7j/7, 9h-19h (lundi 10h). Téléphone, itinéraire et formulaire de contact.">
   <link rel="canonical" href="https://www.fermedugraillou.fr/contact.html">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.fermedugraillou.fr/contact.html">
-  <meta property="og:title" content="Nous Contacter | La Ferme du Graillou">
-  <meta property="og:description" content="Boutique ouverte 7j/7 à Cézens. Tél : 06 76 98 41 55. Vente directe charcuterie Aubrac artisanale.">
+  <meta property="og:title" content="Nous contacter – La Ferme du Graillou, Cézens (Cantal)">
+  <meta property="og:description" content="Venez à la Ferme du Graillou, Le Bourg à Cézens (15230). Boutique ouverte 7j/7, 9h-19h (lundi 10h). Téléphone, itinéraire et formulaire de contact.">
   <meta property="og:image" content="https://www.fermedugraillou.fr/images/opt/IMG_20230617_123028-1200.jpg">
   <meta property="og:locale" content="fr_FR">
   <meta name="twitter:card" content="summary_large_image">
@@ -31,17 +31,15 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://www.fermedugraillou.fr/" },
-          { "@type": "ListItem", "position": 2, "name": "Nous Contacter", "item": "https://www.fermedugraillou.fr/contact.html" }
-        ]
-      },
-      {
-        "@type": "LocalBusiness",
+        "@type": [
+          "LocalBusiness",
+          "Farm",
+          "FoodEstablishment"
+        ],
+        "@id": "https://www.fermedugraillou.fr/#organisation",
         "name": "La Ferme du Graillou",
-        "url": "https://www.fermedugraillou.fr",
-        "telephone": "+33-6-76-98-41-55",
+        "url": "https://www.fermedugraillou.fr/",
+        "telephone": "+33676984155",
         "email": "elodie.bertrand1@orange.fr",
         "address": {
           "@type": "PostalAddress",
@@ -51,12 +49,166 @@
           "addressRegion": "Cantal",
           "addressCountry": "FR"
         },
-        "geo": { "@type": "GeoCoordinates", "latitude": 45.07, "longitude": 2.88 },
-        "openingHours": ["Mo 10:00-19:00", "Tu-Su 09:00-19:00"],
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "https://schema.org/Monday",
+            "opens": "10:00",
+            "closes": "19:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "https://schema.org/Tuesday",
+              "https://schema.org/Wednesday",
+              "https://schema.org/Thursday",
+              "https://schema.org/Friday",
+              "https://schema.org/Saturday",
+              "https://schema.org/Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "19:00"
+          }
+        ],
         "sameAs": [
           "https://www.facebook.com/thomas.gras.92/",
           "https://www.instagram.com/gras4243/"
+        ],
+        "alternateName": [
+          "Ferme du Graillou",
+          "La Ferme du Graillou Cézens"
+        ],
+        "description": "Élevage de bovins Aubrac en race pure et charcuterie artisanale à Cézens, dans le Cantal. 80 mères conduites en sélection, nourries à l'herbe du plateau l'été et au foin de la ferme l'hiver. Charcuterie de bœuf et de porc élaborée sur l'exploitation et vendue en direct à la boutique.",
+        "logo": {
+          "@type": "ImageObject",
+          "@id": "https://www.fermedugraillou.fr/#logo",
+          "url": "https://www.fermedugraillou.fr/images/logo.png",
+          "width": 384,
+          "height": 267,
+          "caption": "La Ferme du Graillou"
+        },
+        "image": [
+          "https://www.fermedugraillou.fr/images/opt/G23_9431-CR2_DxO_DeepPRIME-1200.jpg",
+          "https://www.fermedugraillou.fr/images/opt/G23_9246-CR2_DxO_DeepPRIME-1200.jpg"
+        ],
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 44.9839,
+          "longitude": 2.8554
+        },
+        "areaServed": [
+          {
+            "@type": "AdministrativeArea",
+            "name": "Cantal"
+          },
+          {
+            "@type": "City",
+            "name": "Saint-Flour"
+          },
+          {
+            "@type": "City",
+            "name": "Murat"
+          }
+        ],
+        "priceRange": "€€",
+        "currenciesAccepted": "EUR",
+        "paymentAccepted": "Espèces, Chèque",
+        "knowsLanguage": "fr-FR",
+        "founder": {
+          "@id": "https://www.fermedugraillou.fr/#thomas"
+        },
+        "employee": {
+          "@id": "https://www.fermedugraillou.fr/#thomas"
+        },
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "contactType": "Boutique et commandes",
+            "telephone": "+33676984155",
+            "email": "elodie.bertrand1@orange.fr",
+            "availableLanguage": "French",
+            "areaServed": "FR"
+          }
         ]
+      },
+      {
+        "@type": "Person",
+        "@id": "https://www.fermedugraillou.fr/#thomas",
+        "name": "Thomas Gras",
+        "jobTitle": "Éleveur et charcutier",
+        "worksFor": {
+          "@id": "https://www.fermedugraillou.fr/#organisation"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Le Bourg",
+          "addressLocality": "Cézens",
+          "postalCode": "15230",
+          "addressRegion": "Cantal",
+          "addressCountry": "FR"
+        },
+        "knowsAbout": [
+          "Race Aubrac",
+          "Élevage bovin allaitant",
+          "Charcuterie artisanale",
+          "Autonomie fourragère"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.fermedugraillou.fr/#site",
+        "url": "https://www.fermedugraillou.fr/",
+        "name": "La Ferme du Graillou",
+        "inLanguage": "fr-FR",
+        "publisher": {
+          "@id": "https://www.fermedugraillou.fr/#organisation"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.fermedugraillou.fr/contact.html#fil",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Accueil",
+            "item": "https://www.fermedugraillou.fr/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Nous Contacter",
+            "item": "https://www.fermedugraillou.fr/contact.html"
+          }
+        ]
+      },
+      {
+        "@type": [
+          "ContactPage"
+        ],
+        "@id": "https://www.fermedugraillou.fr/contact.html#page",
+        "url": "https://www.fermedugraillou.fr/contact.html",
+        "name": "Nous Contacter",
+        "description": "Venez à la Ferme du Graillou, Le Bourg à Cézens (15230). Boutique ouverte 7j/7, 9h-19h (lundi 10h). Téléphone, itinéraire et formulaire de contact.",
+        "inLanguage": "fr-FR",
+        "isPartOf": {
+          "@id": "https://www.fermedugraillou.fr/#site"
+        },
+        "about": {
+          "@id": "https://www.fermedugraillou.fr/#organisation"
+        },
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://www.fermedugraillou.fr/images/opt/IMG_20230617_123028-1200.jpg"
+        },
+        "datePublished": "2026-09-26",
+        "dateModified": "2026-10-12",
+        "breadcrumb": {
+          "@id": "https://www.fermedugraillou.fr/contact.html#fil"
+        },
+        "mainEntity": {
+          "@id": "https://www.fermedugraillou.fr/#organisation"
+        }
       }
     ]
   }
@@ -70,7 +222,7 @@
   <!-- NAVIGATION -->
   <header class="site-header" id="site-header">
     <nav class="nav-container" aria-label="Navigation principale">
-      <a href="index.html" class="nav-logo" aria-label="La Ferme du Graillou – Retour à l'accueil">
+      <a href="/" class="nav-logo" aria-label="La Ferme du Graillou – Retour à l'accueil">
         <img src="images/opt/logo-blanc-1024.webp"
              alt="Logo La Ferme du Graillou – Élevage Aubrac Cézens Cantal"
              width="110" height="74" srcset="images/opt/logo-blanc-640.webp 640w" sizes="110px">
@@ -111,7 +263,7 @@
     <!-- BREADCRUMB -->
     <nav class="breadcrumb" aria-label="Fil d'Ariane">
       <div class="breadcrumb-inner">
-        <a href="index.html">Accueil</a>
+        <a href="/">Accueil</a>
         <span class="breadcrumb-sep" aria-hidden="true">›</span>
         <span>Nous Contacter</span>
       </div>
@@ -312,7 +464,7 @@
       <nav class="footer-nav" aria-label="Navigation secondaire">
         <p class="footer-nav-title">Navigation</p>
         <ul role="list">
-          <li><a href="index.html">Accueil</a></li>
+          <li><a href="/">Accueil</a></li>
           <li><a href="histoire.html">Notre Histoire</a></li>
           <li><a href="exploitation.html">Notre Exploitation</a></li>
           <li><a href="produits.html">Nos Produits</a></li>

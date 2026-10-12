@@ -7,8 +7,8 @@
   <!-- ══════════════════════════════════════════════
        SEO PRIMAIRE
   ══════════════════════════════════════════════ -->
-  <title>La Ferme du Graillou | Élevage Aubrac Race Pure & Charcuterie Artisanale – Cézens, Cantal (15)</title>
-  <meta name="description" content="Découvrez La Ferme du Graillou à Cézens (Cantal) : élevage Aubrac race pure, 80 mères nourries au foin de prairie naturelle. Charcuterie artisanale de bœuf et porc (saucisson, bœuf séché, jambon sec, terrines) selon des recettes ancestrales. Vente directe à la ferme.">
+  <title>Élevage Aubrac &amp; charcuterie fermière – Cézens (15)</title>
+  <meta name="description" content="Élevage Aubrac race pure et charcuterie faite à la ferme à Cézens, dans le Cantal. 80 mères au foin de prairie. Boutique ouverte toute la semaine.">
   <meta name="keywords" content="ferme aubrac, élevage aubrac cantal, charcuterie aubrac artisanale, bœuf séché aubrac, saucisson bœuf aubrac, vente directe ferme Cantal, Cézens 15590, ferme du graillou, Thomas Gras éleveur aubrac, charcuterie terroir auvergne, jambon sec cantal, terrine bœuf aubrac, race aubrac race pure">
   <meta name="author" content="La Ferme du Graillou – Thomas Gras, Cézens, Cantal">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
@@ -21,8 +21,8 @@
   ══════════════════════════════════════════════ -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.fermedugraillou.fr/">
-  <meta property="og:title" content="La Ferme du Graillou | Élevage Aubrac & Charcuterie Artisanale – Cézens (15)">
-  <meta property="og:description" content="80 mères Aubrac race pure, nourries au foin de prairie naturelle. Charcuterie artisanale de bœuf et porc aux recettes ancestrales. Vente directe à Cézens dans le Cantal.">
+  <meta property="og:title" content="La Ferme du Graillou | Élevage Aubrac &amp; charcuterie, Cézens (15)">
+  <meta property="og:description" content="Élevage Aubrac race pure et charcuterie faite à la ferme à Cézens, dans le Cantal. 80 mères au foin de prairie. Boutique ouverte toute la semaine.">
   <meta property="og:image" content="https://www.fermedugraillou.fr/images/opt/G23_9431-CR2_DxO_DeepPRIME-1200.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -33,8 +33,8 @@
        TWITTER CARD
   ══════════════════════════════════════════════ -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="La Ferme du Graillou | Élevage Aubrac & Charcuterie Artisanale">
-  <meta name="twitter:description" content="Élevage Aubrac race pure et charcuterie artisanale à Cézens, Cantal. Vente directe à la ferme.">
+  <meta name="twitter:title" content="La Ferme du Graillou | Élevage Aubrac &amp; charcuterie, Cézens (15)">
+  <meta name="twitter:description" content="Élevage Aubrac race pure et charcuterie faite à la ferme à Cézens, dans le Cantal. 80 mères au foin de prairie. Boutique ouverte toute la semaine.">
   <meta name="twitter:image" content="https://www.fermedugraillou.fr/images/opt/G23_9431-CR2_DxO_DeepPRIME-1200.jpg">
 
   <!-- ══════════════════════════════════════════════
@@ -58,20 +58,16 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": ["LocalBusiness", "FoodEstablishment", "Farm"],
-        "@id": "https://www.fermedugraillou.fr/#business",
+        "@type": [
+          "LocalBusiness",
+          "Farm",
+          "FoodEstablishment"
+        ],
+        "@id": "https://www.fermedugraillou.fr/#organisation",
         "name": "La Ferme du Graillou",
-        "alternateName": ["Ferme du Graillou", "La Ferme du Graillou Cézens"],
-        "description": "Élevage Aubrac en race pure et sélection à Cézens dans le Cantal. 80 mères Aubrac nourries exclusivement au foin de prairie naturelle récolté sur la ferme. Charcuterie artisanale de bœuf et de porc élaborée selon des recettes traditionnelles et ancestrales. Vente directe à la ferme.",
-        "url": "https://www.fermedugraillou.fr",
-        "logo": "https://www.fermedugraillou.fr/images/logo.png",
-        "image": ["https://www.fermedugraillou.fr/images/opt/G23_9431-CR2_DxO_DeepPRIME-1200.jpg","https://www.fermedugraillou.fr/images/opt/G23_9246-CR2_DxO_DeepPRIME-1200.jpg"],
-        "telephone": "+33-6-76-98-41-55",
-        "openingHours": ["Mo 10:00-19:00", "Tu-Su 09:00-19:00"],
+        "url": "https://www.fermedugraillou.fr/",
+        "telephone": "+33676984155",
         "email": "elodie.bertrand1@orange.fr",
-        "priceRange": "€€",
-        "currenciesAccepted": "EUR",
-        "paymentAccepted": "Cash, Chèque",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Le Bourg",
@@ -80,28 +76,209 @@
           "addressRegion": "Cantal",
           "addressCountry": "FR"
         },
-        "geo": { "@type": "GeoCoordinates", "latitude": 45.07, "longitude": 2.88 },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "https://schema.org/Monday",
+            "opens": "10:00",
+            "closes": "19:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "https://schema.org/Tuesday",
+              "https://schema.org/Wednesday",
+              "https://schema.org/Thursday",
+              "https://schema.org/Friday",
+              "https://schema.org/Saturday",
+              "https://schema.org/Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "19:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/thomas.gras.92/",
+          "https://www.instagram.com/gras4243/"
+        ],
+        "alternateName": [
+          "Ferme du Graillou",
+          "La Ferme du Graillou Cézens"
+        ],
+        "description": "Élevage de bovins Aubrac en race pure et charcuterie artisanale à Cézens, dans le Cantal. 80 mères conduites en sélection, nourries à l'herbe du plateau l'été et au foin de la ferme l'hiver. Charcuterie de bœuf et de porc élaborée sur l'exploitation et vendue en direct à la boutique.",
+        "logo": {
+          "@type": "ImageObject",
+          "@id": "https://www.fermedugraillou.fr/#logo",
+          "url": "https://www.fermedugraillou.fr/images/logo.png",
+          "width": 384,
+          "height": 267,
+          "caption": "La Ferme du Graillou"
+        },
+        "image": [
+          "https://www.fermedugraillou.fr/images/opt/G23_9431-CR2_DxO_DeepPRIME-1200.jpg",
+          "https://www.fermedugraillou.fr/images/opt/G23_9246-CR2_DxO_DeepPRIME-1200.jpg"
+        ],
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 44.9839,
+          "longitude": 2.8554
+        },
+        "areaServed": [
+          {
+            "@type": "AdministrativeArea",
+            "name": "Cantal"
+          },
+          {
+            "@type": "City",
+            "name": "Saint-Flour"
+          },
+          {
+            "@type": "City",
+            "name": "Murat"
+          }
+        ],
+        "priceRange": "€€",
+        "currenciesAccepted": "EUR",
+        "paymentAccepted": "Espèces, Chèque",
+        "knowsLanguage": "fr-FR",
         "founder": {
-          "@type": "Person",
-          "name": "Thomas Gras",
-          "jobTitle": "Éleveur – Charcutier artisanal"
+          "@id": "https://www.fermedugraillou.fr/#thomas"
+        },
+        "employee": {
+          "@id": "https://www.fermedugraillou.fr/#thomas"
         },
         "hasOfferCatalog": {
           "@type": "OfferCatalog",
           "name": "Charcuterie artisanale La Ferme du Graillou",
           "itemListElement": [
-            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Saucisson de bœuf Aubrac", "description": "Saucisson sec élaboré à partir de bœuf Aubrac race pure élevé à Cézens dans le Cantal" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Bœuf séché Aubrac", "description": "Bœuf séché traditionnel à partir de vaches Aubrac nourries au foin de prairie naturelle" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Terrines de bœuf Aubrac" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Plats cuisinés au bœuf Aubrac" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Saucisson sec de porc" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Saucisses sèches de porc" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Jambon sec artisanal" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Poitrine de porc" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Terrines de porc" } }
-          ]
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "Saucisson de bœuf Aubrac",
+                "description": "Saucisson sec élaboré à partir de bœuf Aubrac race pure élevé à Cézens dans le Cantal"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "Bœuf séché Aubrac",
+                "description": "Bœuf séché traditionnel à partir de vaches Aubrac nourries au foin de prairie naturelle"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "Terrines de bœuf Aubrac"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "Plats cuisinés au bœuf Aubrac"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "Saucisson sec de porc"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "Saucisses sèches de porc"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "Jambon sec artisanal"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "Poitrine de porc"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "Terrines de porc"
+              }
+            }
+          ],
+          "@id": "https://www.fermedugraillou.fr/#catalogue"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://www.fermedugraillou.fr/#thomas",
+        "name": "Thomas Gras",
+        "jobTitle": "Éleveur et charcutier",
+        "worksFor": {
+          "@id": "https://www.fermedugraillou.fr/#organisation"
         },
-        "sameAs": ["https://www.facebook.com/thomas.gras.92/", "https://www.instagram.com/gras4243/"]
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Le Bourg",
+          "addressLocality": "Cézens",
+          "postalCode": "15230",
+          "addressRegion": "Cantal",
+          "addressCountry": "FR"
+        },
+        "knowsAbout": [
+          "Race Aubrac",
+          "Élevage bovin allaitant",
+          "Charcuterie artisanale",
+          "Autonomie fourragère"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.fermedugraillou.fr/#site",
+        "url": "https://www.fermedugraillou.fr/",
+        "name": "La Ferme du Graillou",
+        "inLanguage": "fr-FR",
+        "publisher": {
+          "@id": "https://www.fermedugraillou.fr/#organisation"
+        }
+      },
+      {
+        "@type": [
+          "WebPage"
+        ],
+        "@id": "https://www.fermedugraillou.fr/#page",
+        "url": "https://www.fermedugraillou.fr/",
+        "name": "Accueil",
+        "description": "Élevage Aubrac race pure et charcuterie faite à la ferme à Cézens, dans le Cantal. 80 mères au foin de prairie. Boutique ouverte toute la semaine.",
+        "inLanguage": "fr-FR",
+        "isPartOf": {
+          "@id": "https://www.fermedugraillou.fr/#site"
+        },
+        "about": {
+          "@id": "https://www.fermedugraillou.fr/#organisation"
+        },
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://www.fermedugraillou.fr/images/opt/G23_9431-CR2_DxO_DeepPRIME-1200.jpg"
+        },
+        "datePublished": "2026-09-26",
+        "dateModified": "2026-10-12",
+        "hasPart": [
+          {
+            "@id": "https://www.fermedugraillou.fr/#faq"
+          }
+        ]
       },
       {
         "@type": "FAQPage",
@@ -154,15 +331,8 @@
               "text": "Nos produits sont principalement disponibles en vente directe à la ferme. Pour toute demande de livraison ou de commande à distance, contactez-nous directement par téléphone ou email afin de trouver la solution la plus adaptée."
             }
           }
-        ]
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://www.fermedugraillou.fr/#website",
-        "url": "https://www.fermedugraillou.fr",
-        "name": "La Ferme du Graillou",
-        "inLanguage": "fr-FR",
-        "publisher": { "@id": "https://www.fermedugraillou.fr/#business" }
+        ],
+        "@id": "https://www.fermedugraillou.fr/#faq"
       }
     ]
   }
@@ -180,7 +350,7 @@
   <header class="site-header" id="site-header">
     <nav class="nav-container" aria-label="Navigation principale">
 
-      <a href="index.html" class="nav-logo" aria-label="La Ferme du Graillou – Retour à l'accueil">
+      <a href="/" class="nav-logo" aria-label="La Ferme du Graillou – Retour à l'accueil">
         <img src="images/opt/logo-blanc-1024.webp"
              alt="Logo La Ferme du Graillou – Élevage Aubrac Cézens Cantal"
              width="110" height="74" srcset="images/opt/logo-blanc-640.webp 640w" sizes="110px">
@@ -940,7 +1110,7 @@
       <nav class="footer-nav" aria-label="Navigation secondaire">
         <p class="footer-nav-title">Navigation</p>
         <ul role="list">
-          <li><a href="index.html">Accueil</a></li>
+          <li><a href="/">Accueil</a></li>
           <li><a href="histoire.html">Notre Histoire</a></li>
           <li><a href="exploitation.html">Notre Exploitation</a></li>
           <li><a href="produits.html">Nos Produits</a></li>
