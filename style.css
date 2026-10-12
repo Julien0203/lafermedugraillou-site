@@ -18,7 +18,11 @@
      par les pages du Carnet sans avoir jamais ete declaree : les
      surtitres s'affichaient en gris herite. */
   --or-txt:       #7E5A20;
-  --or-lt:        #D4A96A;
+  /* Or pose sur photo ou fond sombre. #D4A96A plafonnait a 2,5:1 sur
+     les heros clairs : trop sombre pour du texte de 12 px. Eclairci
+     jusqu'a passer AA sur les fonds les plus clairs du site, sans
+     quitter la famille doree. */
+  --or-lt:        #EBD3A3;
   --or-pale:      #EDD9B5;
   --creme:        #FAF7F2;
   --creme-dk:     #F0E5D4;
@@ -26,6 +30,14 @@
   --texte-lt:     #5C5C5C;
   --noir:         #1A1A1A;
   --blanc:        #FFFFFF;
+
+  /* Canaux des couleurs de marque, pour les usages semi-transparents.
+     Sans eux, chaque rgba() reecrit les composantes a la main et finit
+     par deriver : on avait trois noirs differents dans le seul voile
+     du hero. */
+  --noir-rgb:     26,26,26;
+  --creme-rgb:    250,247,242;
+  --blanc-rgb:    255,255,255;
   --gris:         #F4EEE5;
 
   /* Typographie */
@@ -45,9 +57,15 @@
   --radius:    10px;
   --radius-lg: 20px;
   --radius-xl: 28px;
-  --shadow-sm: 0 2px 12px rgba(0,0,0,.08);
-  --shadow:    0 6px 32px rgba(0,0,0,.12);
-  --shadow-lg: 0 12px 56px rgba(0,0,0,.18);
+  /* Ombres chaudes, en couches : une ombre neutre sur un fond creme
+     tire vers le gris. --ombre-rgb nomme ce noir brun pour qu'il ne
+     soit plus un nombre magique reecrit a chaque usage. */
+  --ombre-rgb: 26,16,10;
+  --shadow-sm: 0 1px 2px rgba(var(--ombre-rgb),.05), 0 2px 8px rgba(var(--ombre-rgb),.05);
+  --shadow:    0 1px 2px rgba(var(--ombre-rgb),.06), 0 4px 14px rgba(var(--ombre-rgb),.07),
+               0 12px 34px rgba(var(--ombre-rgb),.06);
+  --shadow-lg: 0 2px 4px rgba(var(--ombre-rgb),.06), 0 8px 24px rgba(var(--ombre-rgb),.09),
+               0 24px 64px rgba(var(--ombre-rgb),.10);
   --ease:      cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out:  cubic-bezier(0, 0, 0.2, 1);
 
@@ -153,7 +171,9 @@ p, li { text-wrap: pretty; }
   font-weight: 900;
   letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--or);
+  /* --or (#C4965A) ne donne que 2,47:1 sur le creme : sous le seuil AA.
+     --or-txt (#7E5A20) monte a 5,83:1 pour la meme famille de teinte. */
+  color: var(--or-txt);
   margin-bottom: 12px;
 }
 .eyebrow--light { color: var(--or-lt); }
@@ -282,6 +302,15 @@ figcaption {
   top: 0; left: 0; right: 0;
   z-index: 900;
   padding: 8px 0;
+  /* Avant defilement l'en-tete n'avait aucun fond : les liens blancs
+     passaient directement sur la photo. Sur un hero clair (le ciel du
+     sommaire du Carnet) le contraste tombait a 2,1:1. Ce voile, lisible
+     comme une ombre naturelle sous la barre, ne change rien sur un hero
+     sombre et sauve les heros clairs. */
+  background: linear-gradient(to bottom,
+    rgba(var(--noir-rgb), .74) 0%,
+    rgba(var(--noir-rgb), .38) 62%,
+    transparent 100%);
   transition: background .35s var(--ease), box-shadow .35s var(--ease), padding .35s var(--ease);
 }
 
@@ -291,7 +320,7 @@ figcaption {
      est position:fixed sur toute la largeur : le compositeur recalculait
      le flou du fond a chaque frame de defilement. Fond opaque, flou
      supprime : rendu identique, cout nul. */
-  background: #1A1A1A;
+  background: var(--noir);
   box-shadow: 0 2px 24px rgba(0,0,0,.28);
 }
 
@@ -428,9 +457,14 @@ figcaption {
   /* Voile radial central en plus des degrades : sans lui le titre se
      posait directement sur les visages, sans separation lisible. */
   background:
-    radial-gradient(ellipse 92% 64% at 50% 44%, rgba(18,13,11,.60) 0%, transparent 74%),
-    linear-gradient(to top, rgba(26,26,26,.88) 0%, rgba(26,26,26,.12) 56%),
-    linear-gradient(165deg, rgba(12,12,12,.42) 0%, transparent 62%);
+    /* Trois couches empilees : un creux radial au centre pour detacher
+       le titre, une remontee depuis le bas, un coin superieur gauche.
+       Elles utilisaient trois noirs differents ecrits a la main
+       (18,13,11 / 26,26,26 / 12,12,12) sans raison : meme role, meme
+       base desormais, seules les opacites different. */
+    radial-gradient(ellipse 92% 64% at 50% 44%, rgba(var(--noir-rgb),.60) 0%, transparent 74%),
+    linear-gradient(to top, rgba(var(--noir-rgb),.88) 0%, rgba(var(--noir-rgb),.12) 56%),
+    linear-gradient(165deg, rgba(var(--noir-rgb),.42) 0%, transparent 62%);
 }
 
 .hero-content {
@@ -672,7 +706,7 @@ figcaption {
   font-family: var(--f-head);
   font-size: 2rem;
   font-weight: 700;
-  color: var(--or);
+  color: var(--or-txt);
   line-height: 1;
   margin-bottom: 6px;
 }
@@ -707,7 +741,7 @@ figcaption {
 
 .pano-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to right, rgba(26,26,26,.8) 0%, rgba(26,26,26,.15) 65%);
+  background: linear-gradient(to right, rgba(var(--noir-rgb),.8) 0%, rgba(var(--noir-rgb),.15) 65%);
 }
 
 .pano-quote {
@@ -753,7 +787,7 @@ figcaption {
   font-weight: 900;
   letter-spacing: .2em;
   text-transform: uppercase;
-  color: var(--or);
+  color: var(--or-txt);
   margin-bottom: 12px;
 }
 
@@ -1292,7 +1326,7 @@ figcaption {
     /* Fond opaque : a 98,5 % d'opacite le blur(24px) d'origine etait
        invisible, et un flou de 24 px sur un panneau plein ecran est l'un
        des paints les plus chers sur mobile d'entree de gamme. */
-    background: #1A1A1A;
+    background: var(--noir);
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
@@ -1475,9 +1509,14 @@ html:has(.bl-ancres) { scroll-padding-top: 131px; }
 /* ──────────────────────────────────────────────────────
    27. ACCESSIBILITÉ
 ────────────────────────────────────────────────────── */
+/* Repere de focus clavier, defini une seule fois. Il doit se voir
+   aussi bien sur le creme des sections que sur le noir de l'en-tete et
+   du pied : l'anneau sombre travaille sur fond clair, le halo creme
+   prend le relais sur fond sombre. */
 :focus-visible {
-  outline: 3px solid var(--or);
-  outline-offset: 3px;
+  outline: 3px solid var(--or-txt);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px rgba(var(--creme-rgb), .55);
   border-radius: 4px;
 }
 
@@ -1517,9 +1556,11 @@ html:has(.bl-ancres) { scroll-padding-top: 131px; }
 .page-hero-overlay {
   position: absolute;
   inset: 0;
+  /* Le haut etait a 50 % d'opacite : sur une photo claire l'eyebrow
+     dore tombait a 2,2:1. Renforce en haut, inchange en bas. */
   background: linear-gradient(to bottom,
-    rgba(12, 12, 12, 0.50) 0%,
-    rgba(26, 26, 26, 0.74) 100%);
+    rgba(var(--noir-rgb), 0.64) 0%,
+    rgba(var(--noir-rgb), 0.74) 100%);
 }
 .page-hero-content {
   position: relative;
@@ -1536,7 +1577,9 @@ html:has(.bl-ancres) { scroll-padding-top: 131px; }
   font-weight: 700;
   letter-spacing: .28em;
   text-transform: uppercase;
-  color: var(--or);
+  /* Pose sur une photo : on prend l or clair, comme .eyebrow--light
+     et .bl-hero .eyebrow le font deja. */
+  color: var(--or-lt);
   margin-bottom: var(--sp-sm);
   opacity: 0;
   animation: hero-in .8s var(--ease-out) .3s forwards;
@@ -1582,7 +1625,7 @@ html:has(.bl-ancres) { scroll-padding-top: 131px; }
   font-weight: 600;
 }
 .breadcrumb-inner a:hover { text-decoration: underline; }
-.breadcrumb-sep { color: var(--or); font-size: 0.7rem; }
+.breadcrumb-sep { color: var(--or-txt); font-size: 0.7rem; }
 
 /* ──────────────────────────────────────────────────────
    29. FORMULAIRE DE CONTACT
@@ -1697,6 +1740,11 @@ html:has(.bl-ancres) { scroll-padding-top: 131px; }
 .bl-fil a { color: var(--or-txt); }
 .bl-fil a:hover { text-decoration: underline; }
 .bl-fil span[aria-current] { color: var(--texte-lt); }
+/* Dans le hero le fil est pose sur une photo sombre. La regle ci-dessus
+   a une specificite de (0,2,1) et l'emportait sur .bl-hero .bl-fil
+   (0,2,0) : la page courante s'affichait en gris fonce sur fond fonce,
+   a 2,05:1. On remonte la specificite du cas clair. */
+.bl-hero .bl-fil span[aria-current] { color: rgba(var(--creme-rgb), .82); }
 
 /* — Hero d'article — */
 .bl-hero { position: relative; min-height: clamp(460px, 60vh, 640px); display: flex; align-items: flex-end; overflow: hidden; }
@@ -1705,7 +1753,10 @@ html:has(.bl-ancres) { scroll-padding-top: 131px; }
 .bl-hero-voile {
   position: absolute; inset: 0;
   background:
-    linear-gradient(to top, rgba(20,14,12,.92) 0%, rgba(20,14,12,.45) 45%, rgba(20,14,12,.25) 100%);
+    /* Quatrieme noir approximatif du fichier (20,14,12) : ramene sur la
+       base commune. Le palier median passe de .45 a .62 : le chapeau du
+       dossier s'y trouve et tombait a 4,0:1 sur les photos claires. */
+    linear-gradient(to top, rgba(var(--noir-rgb),.93) 0%, rgba(var(--noir-rgb),.80) 45%, rgba(var(--noir-rgb),.60) 100%);
 }
 /* Le header est fixe : sans reserve en haut, le fil d'Ariane passait dessous. */
 .bl-hero-inner { position: relative; z-index: 2; width: 100%; padding: clamp(96px, 12vw, 128px) 0 clamp(32px, 5vw, 56px); color: var(--creme); }
@@ -1717,7 +1768,7 @@ html:has(.bl-ancres) { scroll-padding-top: 131px; }
   max-width: 20ch; margin-bottom: 14px;
   text-shadow: 0 2px 24px rgba(0,0,0,.5);
 }
-.bl-hero-sous { font-size: clamp(1rem, 1.9vw, 1.16rem); color: rgba(250,247,242,.94); max-width: 60ch; line-height: 1.6; }
+.bl-hero-sous { font-size: clamp(1rem, 1.9vw, 1.16rem); color: var(--creme); max-width: 60ch; line-height: 1.6; }
 .bl-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
 
 /* — Bandeau de reassurance — */
@@ -1731,7 +1782,7 @@ html:has(.bl-ancres) { scroll-padding-top: 131px; }
 /* Barre d'ancres : sticky sur des articles de 2 600 mots, donc
    recomposee a chaque frame sur toute la hauteur du defilement. Le
    blur(10px) etait pose derriere un fond a 97 % d'opacite : invisible. */
-.bl-ancres { position: sticky; top: 64px; z-index: 40; background: #FAF7F2; border-bottom: 1px solid var(--creme-dk); }
+.bl-ancres { position: sticky; top: 64px; z-index: 40; background: var(--creme); border-bottom: 1px solid var(--creme-dk); }
 .bl-ancres ul { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding: 9px 0; }
 .bl-ancres ul::-webkit-scrollbar { display: none; }
 .bl-ancres a {
@@ -2065,13 +2116,6 @@ h1, h2, h3, h4 {
   font-feature-settings: "tnum" 1;
 }
 
-/* Anneau de focus visible au clavier uniquement : indispensable a
-   l'accessibilite, et absent jusqu'ici. */
-:focus-visible {
-  outline: 2px solid var(--or-txt);
-  outline-offset: 3px;
-  border-radius: 3px;
-}
 .btn:focus-visible,
 .nav-cta:focus-visible { outline-color: var(--creme); outline-offset: 4px; }
 
@@ -2079,13 +2123,6 @@ h1, h2, h3, h4 {
 
 /* Ombres : trois couches courtes valent mieux qu'une large et molle.
    Le regard lit une elevation, pas un halo. */
-:root {
-  --shadow-sm: 0 1px 2px rgba(26,16,10,.05), 0 2px 8px rgba(26,16,10,.05);
-  --shadow:    0 1px 2px rgba(26,16,10,.06), 0 4px 14px rgba(26,16,10,.07),
-               0 12px 34px rgba(26,16,10,.06);
-  --shadow-lg: 0 2px 4px rgba(26,16,10,.06), 0 8px 24px rgba(26,16,10,.09),
-               0 24px 64px rgba(26,16,10,.10);
-}
 
 /* Liens dans le texte courant : soulignement discret plutot que
    couleur seule, qui exclut les daltoniens. */
