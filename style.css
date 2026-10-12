@@ -62,11 +62,20 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  /* scroll-behavior est declare plus bas sous prefers-reduced-motion:
+     no-preference, pour ne pas l'imposer a qui demande moins d'animation.
+
+     overflow-x: hidden a ete retire de html et de body : il masquait les
+     debordements au lieu de les corriger, y compris aux tests automatises.
+     Les douze pages ont ete mesurees sans lui a 375, 390 et 1280 px de
+     large : scrollWidth egale innerWidth partout. Le menu coulissant, en
+     position:fixed hors cadre, n'entre pas dans la largeur du document. */
+  /* Hauteur reelle de l'obstacle fixe, mesuree au navigateur :
+     en-tete 68 px + 16 px de respiration. Sans cela, la cible d'une
+     ancre atterrit sous la barre. */
+  scroll-padding-top: 84px;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
-  overflow-x: hidden;
 }
 
 body {
@@ -76,7 +85,6 @@ body {
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }
 
 body.menu-open { overflow: hidden; }
@@ -278,10 +286,13 @@ figcaption {
 }
 
 .site-header.is-scrolled {
-  background: rgba(26,26,26,.97);
+  /* Le fond etait a rgba(26,26,26,.97) double d'un backdrop-filter:
+     blur(12px). A 97 % d'opacite le flou est invisible, mais l'en-tete
+     est position:fixed sur toute la largeur : le compositeur recalculait
+     le flou du fond a chaque frame de defilement. Fond opaque, flou
+     supprime : rendu identique, cout nul. */
+  background: #1A1A1A;
   box-shadow: 0 2px 24px rgba(0,0,0,.28);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
 .nav-container {
@@ -1067,6 +1078,15 @@ figcaption {
 
 .bento-item:hover figcaption { transform: none; }
 
+/* Sur un ecran tactile il n'y a pas de :hover : les cinq legendes de la
+   galerie etaient donc invisibles en permanence. On les affiche d'office
+   la ou le survol n'existe pas. La galerie est pleine largeur a dessein
+   (hors .container), mais le texte reste a 20 px du bord : 6 px de
+   padding de grille plus 14 px de padding de legende. */
+@media (hover: none) {
+  .bento-item figcaption { transform: none; }
+}
+
 /* Positions bento */
 .bento-a { grid-column: span 5; grid-row: span 2; }
 .bento-b { grid-column: span 4; grid-row: span 1; }
@@ -1269,9 +1289,10 @@ figcaption {
     width: min(440px, 100vw);
     height: 100vh;
     height: 100dvh;
-    background: rgba(26,26,26,.985);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    /* Fond opaque : a 98,5 % d'opacite le blur(24px) d'origine etait
+       invisible, et un flou de 24 px sur un panneau plein ecran est l'un
+       des paints les plus chers sur mobile d'entree de gamme. */
+    background: #1A1A1A;
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
@@ -1444,6 +1465,12 @@ figcaption {
   .stat-item { padding: 10px 12px; min-width: calc(50% - 1px); }
   .valeurs-grid { grid-template-columns: 1fr; }
 }
+
+/* Les dossiers du Carnet empilent une seconde barre collante sous
+   l'en-tete : 68 px + 47 px d'ancres + 16 px = 131 px. :has() permet de
+   cibler ces pages sans classe sur <body> ; les navigateurs qui ne le
+   connaissent pas gardent la valeur de base, qui degage deja l'en-tete. */
+html:has(.bl-ancres) { scroll-padding-top: 131px; }
 
 /* ──────────────────────────────────────────────────────
    27. ACCESSIBILITÉ
@@ -1701,7 +1728,10 @@ figcaption {
 .bl-preuves span { font-size: .8rem; color: rgba(255,255,255,.85); line-height: 1.45; }
 
 /* — Barre d'ancres — */
-.bl-ancres { position: sticky; top: 64px; z-index: 40; background: rgba(250,247,242,.97); backdrop-filter: blur(10px); border-bottom: 1px solid var(--creme-dk); }
+/* Barre d'ancres : sticky sur des articles de 2 600 mots, donc
+   recomposee a chaque frame sur toute la hauteur du defilement. Le
+   blur(10px) etait pose derriere un fond a 97 % d'opacite : invisible. */
+.bl-ancres { position: sticky; top: 64px; z-index: 40; background: #FAF7F2; border-bottom: 1px solid var(--creme-dk); }
 .bl-ancres ul { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding: 9px 0; }
 .bl-ancres ul::-webkit-scrollbar { display: none; }
 .bl-ancres a {
